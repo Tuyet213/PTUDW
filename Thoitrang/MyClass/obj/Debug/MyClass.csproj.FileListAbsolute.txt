@@ -1,0 +1,12 @@
+D:\WEB_PTUD\ASP.NET\PTUDW\Thoitrang\MyClass\bin\Debug\MyClass.dll.config
+D:\WEB_PTUD\ASP.NET\PTUDW\Thoitrang\MyClass\bin\Debug\MyClass.dll
+D:\WEB_PTUD\ASP.NET\PTUDW\Thoitrang\MyClass\bin\Debug\MyClass.pdb
+D:\WEB_PTUD\ASP.NET\PTUDW\Thoitrang\MyClass\bin\Debug\EntityFramework.dll
+D:\WEB_PTUD\ASP.NET\PTUDW\Thoitrang\MyClass\bin\Debug\EntityFramework.SqlServer.dll
+D:\WEB_PTUD\ASP.NET\PTUDW\Thoitrang\MyClass\bin\Debug\EntityFramework.xml
+D:\WEB_PTUD\ASP.NET\PTUDW\Thoitrang\MyClass\bin\Debug\EntityFramework.SqlServer.xml
+D:\WEB_PTUD\ASP.NET\PTUDW\Thoitrang\MyClass\obj\Debug\MyClass.csproj.AssemblyReference.cache
+D:\WEB_PTUD\ASP.NET\PTUDW\Thoitrang\MyClass\obj\Debug\MyClass.csproj.CoreCompileInputs.cache
+D:\WEB_PTUD\ASP.NET\PTUDW\Thoitrang\MyClass\obj\Debug\MyClass.csproj.CopyComplete
+D:\WEB_PTUD\ASP.NET\PTUDW\Thoitrang\MyClass\obj\Debug\MyClass.dll
+D:\WEB_PTUD\ASP.NET\PTUDW\Thoitrang\MyClass\obj\Debug\MyClass.pdb
