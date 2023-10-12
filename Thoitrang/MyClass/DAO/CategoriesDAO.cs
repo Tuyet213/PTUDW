@@ -32,16 +32,23 @@ namespace MyClass.DAO
                     }
                 case "Trash": //status = 0
                     {
-                        list = db.Categories.ToList();
+                        list = db.Categories.Where(m => m.Status == 0).ToList();
                         break;
                     }
                 default: //status = 0
                     {
-                        list = db.Categories.Where(m => m.Status == 0).ToList();
+                        list = db.Categories.ToList();
+                        
                         break;
                     }
             }
             return list;
+        }
+        //CREATE
+        public int Insert(Categories row)
+        {
+            db.Categories.Add(row);
+            return db.SaveChanges();
         }
            
     }
