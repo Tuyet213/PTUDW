@@ -4,6 +4,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using MyClass.Model;
+using System.Data.Entity;
 
 namespace MyClass.DAO
 {
@@ -51,5 +52,23 @@ namespace MyClass.DAO
             return db.SaveChanges();
         }
            
+        //TÌm kiếm mẫu tin
+        public Categories getRow(int ? id)
+        {
+            if (id == null)
+            {
+                return null;
+            }
+            else
+            {
+                return db.Categories.Find(id);
+            }
+        }
+        //Update DB 
+        public int Update(Categories row)
+        {
+            db.Entry(row).State = EntityState.Modified;
+            return db.SaveChanges();
+        }
     }
 }
