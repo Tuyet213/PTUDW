@@ -12,8 +12,14 @@ namespace MyClass.Model
     public class Links
     {
         [Key]
+        [Required(ErrorMessage ="Id Không được dể trống")]
+        [Display(Name="Id")]
         public int Id { get; set; }
+        [Required(ErrorMessage = "Tên Không được dể trống")]
+        [Display(Name = "Tên")]
         public string Name { get; set; }
+        [Required(ErrorMessage = "Tên rút gọn Không được dể trống")]
+        [Display(Name = "Tên rút gọn")]
         public string Slug { get; set; }
         public int? TableId { get; set; }
         public string Type { get; set; }

@@ -13,6 +13,7 @@ namespace MyClass.Model
     {
         [Key]
         [Display(Name="Id")]
+        [Required(ErrorMessage = "Id không được để trống")]
         public int Id { get; set; }
         [Required(ErrorMessage ="Tên loại không được để trống")]
         [Display(Name = "Tên loại sản phẩm")]
