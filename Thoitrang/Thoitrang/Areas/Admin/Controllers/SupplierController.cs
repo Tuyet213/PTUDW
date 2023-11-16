@@ -128,20 +128,14 @@ namespace Thoitrang.Areas.Admin.Controllers
         // more details see https://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult Edit( Suppliers suppliers)
+        public ActionResult Edit(Suppliers suppliers)
         {
             if (ModelState.IsValid)
             {
-                //Xử lý 
-                //không có ngày tạo
-                //CreateBy
-                suppliers.UpdateBy = Convert.ToInt32(Session["UserID"]);
-                //UpdateBy
-                suppliers.UpdateAt = DateTime.Now; ;
-                //Slug
-                suppliers.Slug = XString.Str_Slug(suppliers.Name);
-
-                //Order
+                //xu ly tu dong cho cac truong: Slug, CreateAt/By, UpdateAt/By, Oder
+                //Xu ly tu dong: UpdateAt
+                suppliers.UpdateAt = DateTime.Now;
+                //Xu ly tu dong: Order
                 if (suppliers.Order == null)
                 {
                     suppliers.Order = 1;
@@ -150,14 +144,43 @@ namespace Thoitrang.Areas.Admin.Controllers
                 {
                     suppliers.Order += 1;
                 }
-                //db.Suppliers.Add(suppliers);
-                //db.SaveChanges();
-                suppliersDAO.Insert(suppliers);
-                TempData["message"] = new XMessage("danger", "Thêm mới nhà cung cấp thành công");
+                //Xu ly tu dong: Slug
+                suppliers.Slug = XString.Str_Slug(suppliers.Name);
+
+                //xu ly cho phan upload hinh anh
+                var img = Request.Files["img"];//lay thong tin file
+                string PathDir = "~/Public/img/supplier";
+                if (img.ContentLength != 0)
+                {
+                    //Xu ly cho muc xoa hinh anh
+                    if (suppliers.Image != null)
+                    {
+                        string DelPath = Path.Combine(Server.MapPath(PathDir), suppliers.Image);
+                        System.IO.File.Delete(DelPath);
+                    }
+
+                    string[] FileExtentions = new string[] { ".jpg", ".jpeg", ".png", ".gif" };
+                    //kiem tra tap tin co hay khong
+                    if (FileExtentions.Contains(img.FileName.Substring(img.FileName.LastIndexOf("."))))//lay phan mo rong cua tap tin
+                    {
+                        string slug = suppliers.Slug;
+                        //ten file = Slug + phan mo rong cua tap tin
+                        string imgName = slug + img.FileName.Substring(img.FileName.LastIndexOf("."));
+                        suppliers.Image = imgName;
+                        //upload hinh
+                        string PathFile = Path.Combine(Server.MapPath(PathDir), imgName);
+                        img.SaveAs(PathFile);
+                    }
+
+                }//ket thuc phan upload hinh anh
+
+                //cap nhat mau tin vao DB
+                suppliersDAO.Update(suppliers);
+                //thong bao tao mau tin thanh cong
+                TempData["message"] = new XMessage("success", "Cập nhật nhà cung cấp thành công");
                 return RedirectToAction("Index");
-                
             }
-           // ViewBag.OrderList = new SelectList(suppliersDAO.getList("Index"), "Order", "Name");
+            ViewBag.ListOrder = new SelectList(suppliersDAO.getList("Index"), "Order", "Name");
             return View(suppliers);
         }
 
@@ -184,9 +207,22 @@ namespace Thoitrang.Areas.Admin.Controllers
         public ActionResult DeleteConfirmed(int id)
         {
             Suppliers suppliers = suppliersDAO.getRow(id);
-            suppliersDAO.Delete(suppliers);
-            
-            return RedirectToAction("Index");
+            //xu ly cho phan upload hinh anh
+            var img = Request.Files["img"];//lay thong tin file
+            string PathDir = "~/Public/img/supplier";
+            //xoa mau tin ra khoi DB
+            if (suppliersDAO.Delete(suppliers) == 1)
+            {
+                //Xu ly cho muc xoa hinh anh
+                if (suppliers.Image != null)
+                {
+                    string DelPath = Path.Combine(Server.MapPath(PathDir), suppliers.Image);
+                    System.IO.File.Delete(DelPath);
+                }
+            }
+            //thong bao xoa mau tin thanh cong
+            TempData["message"] = new XMessage("success", "Xóa nhà cung cấp thành công");
+            return RedirectToAction("Trash");
         }
         public ActionResult DelTrash(int? id)
         {
@@ -242,5 +278,39 @@ namespace Thoitrang.Areas.Admin.Controllers
         //    }
         //    base.Dispose(disposing);
         //}
+        public ActionResult Status(int? id)
+        {
+            if (id == null)
+            {
+                //thong bao that bai
+                TempData["message"] = new XMessage("danger", "Cập nhật trạng thái thất bại");
+                return RedirectToAction("Index");
+            }
+            //truy van dong co id = id yeu cau
+            Suppliers suppliers = suppliersDAO.getRow(id);
+            if (suppliers == null)
+            {
+                //thong bao that bai
+                TempData["message"] = new XMessage("danger", "Cập nhật trạng thái thất bại");
+                return RedirectToAction("Index");
+            }
+            else
+            {
+                //chuyen doi trang thai cua Satus tu 1<->2
+                suppliers.Status = (suppliers.Status == 1) ? 2 : 1;
+
+                //cap nhat gia tri UpdateAt
+                suppliers.UpdateAt = DateTime.Now;
+
+                //cap nhat lai DB
+                suppliersDAO.Update(suppliers);
+
+                //thong bao cap nhat trang thai thanh cong
+                TempData["message"] = TempData["message"] = new XMessage("success", "Cập nhật trạng thái thành công");
+
+                return RedirectToAction("Index");
+            }
+        }
+
     }
 }

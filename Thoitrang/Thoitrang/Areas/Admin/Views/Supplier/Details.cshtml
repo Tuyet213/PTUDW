@@ -1,9 +1,10 @@
 ﻿@model MyClass.Model.Suppliers
 
 @{
-    ViewBag.Title = "Details";
+    ViewBag.Title = "Thông tin chi tiết nhà cung cấp";
     Layout = "~/Areas/Admin/Views/Shared/_LayoutAdmin.cshtml";
 }
+
 
 <div class="wrapper">
     <!-- Main Sidebar Container -->
@@ -17,51 +18,60 @@
                     @*<h3 class="card-title">Title</h3>*@
                     <div class="row">
                         <div class="col-md-6">
-                            <strong class="text-danger">CHI TIẾT LOẠI SẢN PHẨM</strong>
+                            <strong class="text-danger">CHI TIẾT NHÀ CUNG CẤP</strong>
                         </div>
-
                         <div class="col-md-6 text-right">
-                            <a href="@Url.Action("Edit","Category",  new { id = Model.Id })" class="btn-sm btn-success"><i class="fa fa-edit"></i> Sửa</a>
-                            <a href="@Url.Action("Index", "Category")" class="btn-sm btn-primary"><i class="fa fa-long-arrow-alt-left"></i> Quay lại</a>
+                            <a href="@Url.Action("Edit","Supplier")" class="btn-sm btn-success"><i class="fa fa-edit"></i> Sửa</a>
+                            @*<a href="@Url.Action("Trash","Supplier")" class="btn-sm btn-danger"><i class="fa fa-trash"></i> Thùng rác</a>*@
+                            <a href="@Url.Action("Index", "Supplier")" class="btn-sm btn-primary"><i class="fa fa-long-arrow-alt-left"></i> Quay lại</a>
 
                         </div>
                     </div>
 
                 </div>
                 <div class="card-body">
-                    <table class="table table-bordered table-striped">
+                    @*dòng hiển thị thông báo  (thêm tên file Message) file Message bây giờ là 1 phần của Index=>Index lấy message trả về từ CategoryController thì cũng là Message lấy message*@
+                    @Html.Partial("Message")
+                    <table class="table table-bordered table-striped" , id="myTable">
                         <thead>
                             <tr>
+
+                                <th>#</th>
                                 <th>@Html.DisplayNameFor(model => model.Id)</th>
                                 <th>@Html.DisplayNameFor(model => model.Name)</th>
                                 <th>@Html.DisplayNameFor(model => model.Image)</th>
                                 <th>@Html.DisplayNameFor(model => model.Slug)</th>
-                                <th>@Html.DisplayNameFor(model => model.Order)</th>
+                                <th>@Html.DisplayNameFor(model => model.Order)</th>*
                                 <th>@Html.DisplayNameFor(model => model.Fullname)</th>
                                 <th>@Html.DisplayNameFor(model => model.Phone)</th>
                                 <th>@Html.DisplayNameFor(model => model.Email)</th>
-                                <th>@Html.DisplayNameFor(model => model.Url)</th>
-                                <th>@Html.DisplayNameFor(model => model.MetaDesc)</th>
-                                <th>@Html.DisplayNameFor(model => model.MetaKey)</th>
+                                @*<th>@Html.DisplayNameFor(model => model.Url)</th>
+                                    <th>@Html.DisplayNameFor(model => model.MetaDesc)</th>
+                                    <th>@Html.DisplayNameFor(model => model.MetaKey)</th>*@
 
+                            <th>@Html.DisplayNameFor(model => model.Status)</th>
                             </tr>
                         </thead>
                         <tbody>
-
-                            <tr>
-                                <td>@Html.DisplayFor(model => model.Id)</td>
-                                <td>@Html.DisplayFor(model => model.Name)</td>
-                                <td>@Html.DisplayFor(model => model.Image)</td>
-                                <td>@Html.DisplayFor(model => model.Slug)</td>
-                                <td>@Html.DisplayFor(model => model.Order)</td>
-                                <td>@Html.DisplayFor(model => model.Fullname)</td>
-                                <td>@Html.DisplayFor(model => model.Phone)</td>
-                                <td>@Html.DisplayFor(model => model.Email)</td>
-                                <td>@Html.DisplayFor(model => model.Url)</td>
-                                <td>@Html.DisplayFor(model => model.MetaDesc)</td>
-                                <td>@Html.DisplayFor(model => model.MetaKey)</td>
-                            </tr>
-
+                            
+                                <tr>
+                                    <td><input type="checkbox" name="id" value="" /></td>
+                                    <td>@Html.DisplayFor(model=> model.Id)</td>
+                                    <td>@Html.DisplayFor(model => model.Name)</td>
+                                    <td><img src="~/Public/img/supplier/@Model.Image" class="img-fluid" /></td>
+                                    @*<th>@Html.DisplayFor(modelItem => item.Image)</th>*@
+                                    <td>@Html.DisplayFor(model => model.Slug)</td>
+                                    <td>@Html.DisplayFor(model => model.Order)</td>
+                                    <th>@Html.DisplayFor(model => model.Fullname)</th>
+                                    <td>@Html.DisplayFor(model => model.Phone)</td>
+                                    <td>@Html.DisplayFor(model => model.Email)</td>
+                                    @*<th>@Html.DisplayFor(modelItem => item.Url)</th>
+                                        <th>@Html.DisplayFor(modelItem => item.MetaDesc)</th>
+                                        <th>@Html.DisplayFor(modelItem => item.MetaKey)</th>
+                                        <td>@Html.DisplayFor(modelItem => item.Order)</td>*@
+                                <td>@Html.DisplayFor(model => model.Status)</td>
+                                </tr>
+                            
                         </tbody>
 
                     </table>
@@ -70,135 +80,133 @@
         </section><!-- /.content -->
     </div> <!-- /.content-wrapper -->
 </div><!-- ./wrapper -->
-
-
 @*<div>
-    <h4>Suppliers</h4>
-    <hr />
-    <dl class="dl-horizontal">
-        <dt>
-            @Html.DisplayNameFor(model => model.Name)
-        </dt>
+        <h4>Suppliers</h4>
+        <hr />
+        <dl class="dl-horizontal">
+            <dt>
+                @Html.DisplayNameFor(model => model.Name)
+            </dt>
 
-        <dd>
-            @Html.DisplayFor(model => model.Name)
-        </dd>
+            <dd>
+                @Html.DisplayFor(model => model.Name)
+            </dd>
 
-        <dt>
-            @Html.DisplayNameFor(model => model.Image)
-        </dt>
+            <dt>
+                @Html.DisplayNameFor(model => model.Image)
+            </dt>
 
-        <dd>
-            @Html.DisplayFor(model => model.Image)
-        </dd>
+            <dd>
+                @Html.DisplayFor(model => model.Image)
+            </dd>
 
-        <dt>
-            @Html.DisplayNameFor(model => model.Slug)
-        </dt>
+            <dt>
+                @Html.DisplayNameFor(model => model.Slug)
+            </dt>
 
-        <dd>
-            @Html.DisplayFor(model => model.Slug)
-        </dd>
+            <dd>
+                @Html.DisplayFor(model => model.Slug)
+            </dd>
 
-        <dt>
-            @Html.DisplayNameFor(model => model.Order)
-        </dt>
+            <dt>
+                @Html.DisplayNameFor(model => model.Order)
+            </dt>
 
-        <dd>
-            @Html.DisplayFor(model => model.Order)
-        </dd>
+            <dd>
+                @Html.DisplayFor(model => model.Order)
+            </dd>
 
-        <dt>
-            @Html.DisplayNameFor(model => model.Fullname)
-        </dt>
+            <dt>
+                @Html.DisplayNameFor(model => model.Fullname)
+            </dt>
 
-        <dd>
-            @Html.DisplayFor(model => model.Fullname)
-        </dd>
+            <dd>
+                @Html.DisplayFor(model => model.Fullname)
+            </dd>
 
-        <dt>
-            @Html.DisplayNameFor(model => model.Phone)
-        </dt>
+            <dt>
+                @Html.DisplayNameFor(model => model.Phone)
+            </dt>
 
-        <dd>
-            @Html.DisplayFor(model => model.Phone)
-        </dd>
+            <dd>
+                @Html.DisplayFor(model => model.Phone)
+            </dd>
 
-        <dt>
-            @Html.DisplayNameFor(model => model.Email)
-        </dt>
+            <dt>
+                @Html.DisplayNameFor(model => model.Email)
+            </dt>
 
-        <dd>
-            @Html.DisplayFor(model => model.Email)
-        </dd>
+            <dd>
+                @Html.DisplayFor(model => model.Email)
+            </dd>
 
-        <dt>
-            @Html.DisplayNameFor(model => model.Url)
-        </dt>
+            <dt>
+                @Html.DisplayNameFor(model => model.Url)
+            </dt>
 
-        <dd>
-            @Html.DisplayFor(model => model.Url)
-        </dd>
+            <dd>
+                @Html.DisplayFor(model => model.Url)
+            </dd>
 
-        <dt>
-            @Html.DisplayNameFor(model => model.MetaDesc)
-        </dt>
+            <dt>
+                @Html.DisplayNameFor(model => model.MetaDesc)
+            </dt>
 
-        <dd>
-            @Html.DisplayFor(model => model.MetaDesc)
-        </dd>
+            <dd>
+                @Html.DisplayFor(model => model.MetaDesc)
+            </dd>
 
-        <dt>
-            @Html.DisplayNameFor(model => model.MetaKey)
-        </dt>
+            <dt>
+                @Html.DisplayNameFor(model => model.MetaKey)
+            </dt>
 
-        <dd>
-            @Html.DisplayFor(model => model.MetaKey)
-        </dd>
+            <dd>
+                @Html.DisplayFor(model => model.MetaKey)
+            </dd>
 
-        <dt>
-            @Html.DisplayNameFor(model => model.CreateBy)
-        </dt>
+            <dt>
+                @Html.DisplayNameFor(model => model.CreateBy)
+            </dt>
 
-        <dd>
-            @Html.DisplayFor(model => model.CreateBy)
-        </dd>
+            <dd>
+                @Html.DisplayFor(model => model.CreateBy)
+            </dd>
 
-        <dt>
-            @Html.DisplayNameFor(model => model.CreateAt)
-        </dt>
+            <dt>
+                @Html.DisplayNameFor(model => model.CreateAt)
+            </dt>
 
-        <dd>
-            @Html.DisplayFor(model => model.CreateAt)
-        </dd>
+            <dd>
+                @Html.DisplayFor(model => model.CreateAt)
+            </dd>
 
-        <dt>
-            @Html.DisplayNameFor(model => model.UpdateBy)
-        </dt>
+            <dt>
+                @Html.DisplayNameFor(model => model.UpdateBy)
+            </dt>
 
-        <dd>
-            @Html.DisplayFor(model => model.UpdateBy)
-        </dd>
+            <dd>
+                @Html.DisplayFor(model => model.UpdateBy)
+            </dd>
 
-        <dt>
-            @Html.DisplayNameFor(model => model.UpdateAt)
-        </dt>
+            <dt>
+                @Html.DisplayNameFor(model => model.UpdateAt)
+            </dt>
 
-        <dd>
-            @Html.DisplayFor(model => model.UpdateAt)
-        </dd>
+            <dd>
+                @Html.DisplayFor(model => model.UpdateAt)
+            </dd>
 
-        <dt>
-            @Html.DisplayNameFor(model => model.Status)
-        </dt>
+            <dt>
+                @Html.DisplayNameFor(model => model.Status)
+            </dt>
 
-        <dd>
-            @Html.DisplayFor(model => model.Status)
-        </dd>
+            <dd>
+                @Html.DisplayFor(model => model.Status)
+            </dd>
 
-    </dl>
-</div>*@
+        </dl>
+    </div>*@
 @*<p>
-    @Html.ActionLink("Edit", "Edit", new { id = Model.Id }) |
-    @Html.ActionLink("Back to List", "Index")
-</p>*@
+        @Html.ActionLink("Edit", "Edit", new { id = Model.Id }) |
+        @Html.ActionLink("Back to List", "Index")
+    </p>*@
